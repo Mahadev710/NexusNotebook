@@ -91,7 +91,7 @@ export const updateProfilePic = TryCatch(async(req:AuthenticatedRequest ,res)=>{
         return;
     }
     const cloud = await cloudinary.uploader.upload(fileBuffer.content,{
-        floder:"blogs",
+        folder:"blogs",
     });
 
     const user = await User.findByIdAndUpdate(req.user?._id,{
