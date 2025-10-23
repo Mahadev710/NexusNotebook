@@ -47,3 +47,25 @@ export const getUserProfile = TryCatch(async(req,res)=>{
     }
     res.json(user);
 })
+
+export const updateUser = TryCatch(async(req : AuthenticatedRequest,res)=>{
+    const {name,instagram , facebook,linkedin,bio} = req.body;
+    const user = await User.findByIdAndUpdate(req.user?.id,{
+        name,
+        instagram,
+        facebook,
+        linkedin,
+        bio,
+    },{new:true});
+
+    //purane token 
+    const token =jwt.sign({user},process.env.JWT_SEC as string, {
+        expiresIn:"5d",
+    })
+    res.json({
+        message:"User updated",
+        token,
+        user,
+        
+    })
+});

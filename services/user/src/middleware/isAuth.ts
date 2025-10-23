@@ -12,6 +12,7 @@ export const isAuth= async(req:AuthenticatedRequest,res:Response,next:NextFuncti
 :Promise<void>=>{
 try{
   const authHeader= req.headers.authorization
+  console.log(req.headers);
   if(!authHeader || !authHeader.startsWith("Bearer ")){
     res.status(401).json({
         message:"Please Login - No auth header",
