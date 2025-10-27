@@ -6,7 +6,8 @@ dotenv.config();
 
 const port = process.env.PORT;
 app.use("/api/v1",blogRoutes);
-console.log(blogRoutes);
+// console.log(blogRoutes);
+
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`)
 })
