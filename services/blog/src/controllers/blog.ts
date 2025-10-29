@@ -1,10 +1,18 @@
+import { redisClient } from "../server.js";
 import TryCatch from "../utils/TryCatch.js";
 import { sql } from "../utils/db.js";
 import axios from "axios"
 export const getAllBlogs = TryCatch(async (req, res) => {
   const { searchQuery, category } = req.query;
   let blogs;
-
+  const cacheKey=`blogs:${searchQuery}:${category}`
+  const cached =await  redisClient.get(cacheKey);
+  if(cached){
+    console.log("Serving from redis cache");
+    res.json(JSON.parse(cached));
+    return ;
+  }
+  console.log("Serving from database");
   if (searchQuery && category) {
     blogs = await sql`
       SELECT * FROM blogs
@@ -28,6 +36,7 @@ export const getAllBlogs = TryCatch(async (req, res) => {
       ORDER BY create_at DESC
     `;
   }
+  await redisClient.set(cacheKey,JSON.stringify(blogs),{EX:3600});
 
   res.json(blogs);
 });

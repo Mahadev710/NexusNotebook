@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import connectDb from './utils/db.js';
 import userRoutes from './routes/user.js';
 import { v2 as cloudinary } from 'cloudinary';
-
+import cors from 'cors';
 dotenv.config();
 
 cloudinary.config({ 
@@ -13,9 +13,8 @@ cloudinary.config({
     });
 const app =express();
 app.use(express.json());
-
+app.use(cors());
 app.use("/api/v1",userRoutes);
-
 
 await connectDb();
 
