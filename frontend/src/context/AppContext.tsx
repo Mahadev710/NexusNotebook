@@ -78,7 +78,7 @@
 import { createContext, ReactNode, useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import axios from "axios"; 
-
+import {Toaster} from 'react-hot-toast'
 
 export const user_service = "http://localhost:5000";
 export const author_service = "http://localhost:5001";
@@ -155,6 +155,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   return (
     <AppContext.Provider value={{ user, isAuth, loading, setUser }}>
       {children}
+      <Toaster/>
     </AppContext.Provider>
   );
 };
